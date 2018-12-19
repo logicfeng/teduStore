@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.store.mapper.AreaMapper">
+	<!-- 根据城市编码查询地区列表 -->
+	<!-- List<Area> getAreaListByCityCode(String cityCode); -->
+	<select id="getAreaListByCityCode"
+					resultType="cn.tedu.store.entity.Area">
+		select 
+		  id,
+			city_code as cityCode,
+			area_code as areaCode,
+			area_name as areaName
+		from
+		  t_dict_areas
+		where
+		  city_code=#{cityCode}
+		order by
+		  areaCode
+	</select>
+	<!-- 根据地区编号查询具体的地区名-->
+	<!--Area getAreaByCode(String areaCode); -->
+	<select id="getAreaByCode"
+					resultType="cn.tedu.store.entity.Area">
+		select 
+		  id,
+			city_code as cityCode,
+			area_code as areaCode,
+			area_name as areaName
+		from
+		  t_dict_areas
+		where
+		  area_code=#{areaCode}
+	</select>
+</mapper>
+
+
+
+
+
+
+

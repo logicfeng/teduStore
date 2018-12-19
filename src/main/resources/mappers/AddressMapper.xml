@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.store.mapper.AddressMapper">
+
+	<!-- 新增收货地址 -->
+	<!--  Integer insert(Address address); -->
+	<insert id="insert"
+					parameterType="cn.tedu.store.entity.Address"
+					useGeneratedKeys="true"
+					keyProperty="id">
+		insert into 
+		t_address(
+    uid,
+    recv_name,
+    recv_province,
+    recv_city,
+    recv_area,
+    recv_district,
+    recv_address,
+    recv_phone,
+    recv_tel,
+    recv_zip,
+    recv_tag,
+    	is_default,
+    created_user,
+    created_time,
+    modified_user,
+    modified_time
+		)
+		values(
+		#{uid},
+		#{recvName},
+		#{recvProvince},
+		#{recvCity},
+		#{recvArea},
+		#{recvDistrict},
+		#{recvAddress},
+		#{recvPhone},
+		#{recvTel},
+		#{recvZip},
+		#{recvTag},
+		#{isDefault},
+		#{createdUser},
+		#{createdTime},
+		#{modifiedUser},
+		#{modifiedTime}
+		)
+	</insert>
+	<!-- 根据用户uid获取地址信息列表 -->
+	<!-- List<Address> getAddressList(Integer uid); -->
+	<select id="getAddressList"
+					resultType="cn.tedu.store.entity.Address">
+		select 
+		id,
+		recv_name recvName,
+    recv_province recvProvince,
+    recv_city recvCity,
+    recv_area recvArea,
+    recv_district recvDistrict,
+    recv_address recvAddress,
+    recv_phone recvPhone,
+    recv_tel recvTel,
+    recv_zip recvZip,
+    recv_tag recvTag,
+    	is_default isDefault
+		from
+		t_address
+		where
+		uid=#{uid}
+		order by
+		isDefault desc,modified_time DESC
+	</select>
+	<!-- 根据用户uid查询所拥有的地址数量 -->
+	<!-- Integer getAddressCountByUid(Integer uid); -->
+	<select id="getAddressCountByUid"
+					resultType="java.lang.Integer">
+		select 
+		count(id)
+		from
+		t_address
+		where
+		uid=#{uid}
+	</select>
+	<!-- 根据用户id，地址id，修改用户的默认收货地址 -->
+	<!-- Integer setDefault(@Param("uid")Integer uid,@Param("id")Integer id,@Param("idDefault")String isDefault); -->
+	<update id="setDefault">
+		UPDATE 
+				t_address
+		SET
+				is_default=#{isDefault}
+		WHERE
+				uid=#{uid}
+				<if test="id!=null">
+				and id=#{id}
+				</if>
+	</update>
+</mapper>
+
+
+
+
+
+
+

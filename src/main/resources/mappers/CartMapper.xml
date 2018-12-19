@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.store.mapper.CartMapper">
+	<!-- 添加到购物车表 -->
+	<!--  Integer insert(Cart cart); -->
+	<insert id="insert"
+					parameterType="cn.tedu.store.entity.Cart"
+					useGeneratedKeys="true"
+					keyProperty="id">
+		 insert into 
+		t_car(
+		uid,
+		goods_id,
+		goods_image,
+		goods_title,
+		goods_price,
+		goods_num,
+		created_user,
+		created_time,
+		modified_user,
+		modified_time
+		)
+		values(
+		#{uid},
+		#{goodsId},
+		#{goodsImage},
+		#{goodsTitle},
+		#{goodsPrice},
+		#{goodsNum},
+		#{createdUser},
+		#{createdTime},
+		#{modifiedUser},
+		#{modifiedTime}
+		) 
+	</insert>
+	<!-- 根据用户id和商品id获取购物车信息 -->
+	<!-- Cart getCartByUidAndGoodsId(Integer uid, Long goodsId); -->
+	<select id="getCartByUidAndGoodsId"
+					resultType="cn.tedu.store.entity.Cart">
+		select 
+		  id,
+		  goods_num AS goodsNum
+		from
+		  t_car
+		where
+		  uid=#{uid} AND goods_id=#{goodsId}
+	</select>
+	<!-- 更新商品数量 -->
+	<!--Integer changeGoodsNum(@Param("id") Integer id, @Param("goodsNum") Integer goodsNum);  -->
+	<update id="changeGoodsNum">
+	update 
+	t_car
+	set 
+	goods_num=#{goodsNum} WHERE id=#{id}
+	</update>
+	<!--  获取某用户的购物车数据列表  -->
+<!--  List<Cart> getListByUid(Integer uid)  -->
+<select id="getListByUid" resultType="cn.tedu.store.entity.Cart">
+SELECT id, goods_id AS goodsId, goods_image AS goodsImage, goods_title AS goodsTitle,
+ goods_price AS goodsPrice, goods_num AS goodsNum FROM t_car WHERE uid=#{uid} ORDER BY id DESC
+</select>
+</mapper>
+
+
+
+
+
+
+
